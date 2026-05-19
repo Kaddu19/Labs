@@ -1,0 +1,274 @@
+Lab 3
+
+"""
+
+CREATE DATABASE COMPANY03;
+
+USE COMPANY03;
+
+CREATE TABLE Employee (
+E_id INT PRIMARY KEY,
+E_name VARCHAR(255),
+Age INT,
+Salary DECIMAL(10, 2));
+
+DESC Employee;
+
+INSERT INTO Employee (E_id, E_name, Age, Salary)
+VALUES
+(1, 'Samarth', 30, 50000.00),
+(2, 'Ramesh Kumar', 25, 45000.00),
+(3, 'Seema Banu', 35, 60000.00),
+(4, 'Dennis Anil', 28, 52000.00),
+(5, 'Rehman Khan', 32, 58000.00),
+(6, 'Pavan Gowda', 40, 70000.00),
+(7, 'Shruthi Bhat', 27, 48000.00),
+(8, 'Sandesh Yadav', 29, 51000.00),
+(9, 'Vikram Acharya', 33, 62000.00),
+(10, 'Praveen Bellad', 26, 46000.00),
+(11, 'Sophia Mary', 31, 55000.00),
+(12, 'Darshan Desai', 34, 63000.00);
+
+SELECT * FROM Employee;
+
+SELECT COUNT(E_name) AS TotalEmployees
+FROM Employee;
+
+SELECT MAX(Age) AS MaxAge
+FROM Employee;
+
+SELECT MIN(Age) AS MinAge
+FROM Employee;
+
+SELECT E_name, Salary
+FROM Employee
+ORDER BY Salary ASC;
+
+SELECT Salary, COUNT(*) AS EmployeeCount
+FROM Employee
+GROUP BY Salary;
+
+"""
+
+Lab 4
+
+"""
+
+CREATE DATABASE COMPANY04;
+
+USE COMPANY04;
+
+CREATE TABLE CUSTOMERS (
+ID INT PRIMARY KEY AUTO_ INCREMENT,
+NAME VARCHAR(255), 
+AGE INT,
+ADDRESS VARCHAR(255),
+SALARY DECIMAL(10, 2),
+);
+
+DELIMITER //
+
+CREATE TRIGGER After_Insert_Salary_Difference
+AFTER INSERT ON CUSTOMERS
+FOR EACH ROW
+BEGIN
+    SET @My_Sal_Diff = CONCAT('Salary Inserted Is ', NEW.SALARY);
+END;
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_update_salary_difference
+AFTER UPDATE ON CUSTOMERS
+FOR EACH ROW
+BEGIN
+    SET @my_sal_diff = CONCAT(
+        'Salary difference after update is ',
+        NEW.SALARY - OLD.SALARY
+    );
+END;
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_delete_salary_difference
+AFTER DELETE ON CUSTOMERS
+FOR EACH ROW
+BEGIN
+    SET @my_sal_diff = CONCAT('Salary deleted is ', OLD.SALARY);
+END;
+//
+
+DELIMITER ;
+
+INSERT INTO CUSTOMERS (NAME, AGE, ADDRESS, SALARY)
+VALUES ('Shankara', 35, '123 Main St', 50000.00);
+
+SELECT @my_sal_diff AS SAL_DIFF;
+
+UPDATE CUSTOMERS 
+SET SALARY = 55000.00
+WHERE ID = 1;
+
+SELECT @my_sal_diff AS SAL_DIFF;
+
+DELETE FROM CUSTOMERS 
+WHERE ID = 1;
+
+SELECT @my_sal_diff AS SAL_DIFF;
+
+"""
+
+Lab 5
+
+"""
+
+
+CREATE DATABASE COMPANY05;
+USE COMPANY05;
+
+CREATE TABLE Employee (
+    E_id INT,
+    E_name VARCHAR(255),
+    Age INT,
+    Salary DECIMAL(10,2)
+);
+
+
+INSERT INTO Employee (E_id, E_name, Age, Salary) VALUES
+(1, 'Samarth', 30, 50000.00),
+(2, 'Ramesh Kumar', 25, 45000.00),
+(3, 'Seema Banu', 35, 62000.00),
+(4, 'Dennis Anil', 28, 52000.00),
+(5, 'Rehman Khan', 32, 58000.00);
+
+
+DELIMITER //
+
+CREATE PROCEDURE fetch_employee_data()
+BEGIN
+    DECLARE emp_id INT;
+    DECLARE emp_name VARCHAR(255);
+    DECLARE emp_age INT;
+    DECLARE emp_salary DECIMAL(10,2);
+    DECLARE finished INT DEFAULT 0;
+
+    DECLARE emp_cursor CURSOR FOR
+        SELECT E_id, E_name, Age, Salary FROM Employee;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET finished = 1;
+
+    OPEN emp_cursor;
+
+    read_loop: LOOP
+        FETCH emp_cursor INTO emp_id, emp_name, emp_age, emp_salary;
+
+        IF finished = 1 THEN
+            LEAVE read_loop;
+        END IF;
+
+        SELECT CONCAT(
+            'Employee ID: ', emp_id,
+            ', Name: ', emp_name,
+            ', Age: ', emp_age,
+            ', Salary: ', emp_salary
+        ) AS Employee_Info;
+
+    END LOOP;
+
+    CLOSE emp_cursor;
+END //
+
+DELIMITER ;
+
+
+CALL fetch_employee_data();
+
+
+"""
+
+Lab 6
+
+"""
+
+CREATE DATABASE ROLLCALL;
+
+USE ROLLCALL;
+
+CREATE TABLE N_RollCall (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(255),
+    birth_date DATE
+);
+
+CREATE TABLE O_RollCall (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(255),
+    birth_date DATE
+);
+
+INSERT INTO O_RollCall (student_id, student_name, birth_date)
+VALUES
+(1, 'Shivanna', '1995-08-15'),
+(3, 'Cheluva', '1990-12-10');
+
+INSERT INTO N_RollCall (student_id, student_name, birth_date)
+VALUES
+(1, 'Shivanna', '1995-08-15'),
+(2, 'Bhadramma', '1998-03-22'),
+(3, 'Cheluva', '1990-12-10'),
+(4, 'Devendra', '2000-05-18'),
+(5, 'Eshwar', '1997-09-03');
+
+DELIMITER //
+
+CREATE PROCEDURE merge_rollcall_data()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE n_id INT;
+    DECLARE n_name VARCHAR(255);
+    DECLARE n_birth_date DATE;
+
+    DECLARE n_cursor CURSOR FOR
+        SELECT student_id, student_name, birth_date
+        FROM N_RollCall;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND
+        SET done = TRUE;
+
+    OPEN n_cursor;
+
+    cursor_loop: LOOP
+
+        FETCH n_cursor INTO n_id, n_name, n_birth_date;
+
+        IF done THEN
+            LEAVE cursor_loop;
+        END IF;
+
+        IF NOT EXISTS (
+            SELECT 1
+            FROM O_RollCall
+            WHERE student_id = n_id
+        ) THEN
+
+            INSERT INTO O_RollCall(student_id, student_name, birth_date)
+            VALUES(n_id, n_name, n_birth_date);
+
+        END IF;
+
+    END LOOP;
+
+    CLOSE n_cursor;
+
+END //
+
+DELIMITER ;
+
+CALL merge_rollcall_data();
+
+SELECT * FROM O_RollCall;

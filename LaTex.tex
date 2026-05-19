@@ -1,0 +1,238 @@
+Lab 1
+
+"""
+
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{lipsum} % for dummy text
+\pagestyle{fancy}
+\fancyhf{} % Clear header and footer
+\fancyhead[R]{Latex Programming} % Right header
+\fancyfoot[R]{\thepage} % Right header
+\fancyfoot[L]{VVIET, Mysore} % Left footer
+\begin{document}
+\section{Section 1}
+\lipsum[1-2]
+\section{Section 2}
+\lipsum[1]
+\end{document}
+
+"""
+
+Lab 2
+
+"""
+
+\documentclass {article} 
+\usepackage{lipsum}
+\usepackage {fancyhdr}
+\pagestyle {fancy}
+\fancyhf {} % Clear header and footer 
+\fancyhead[R]{Technical Writing using LaTeX} % Right header 
+\fancyfoot[R]{\thepage} % Right header
+\fancyfoot[L]{VVIET, Mysore} % Left footer
+\begin{document}
+\title{ Technical Writing using LaTeX}
+\author{Dhananjaya Kumar K}
+\date {\today }
+\begin {abstract}
+This is a sample abstract. It provides a brief overview of the document's content.
+\end {abstract}
+\section {Introduction}
+\lipsum[2]
+\section {Methodology }
+\lipsum[2]
+\section {Results}
+\lipsum[2]
+\section {Conclusion}
+\lipsum[2]
+\end {document}
+
+
+"""
+
+Lab 3
+
+"""
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{setspace}
+\geometry{
+	a4paper,
+	total={170mm,257mm},
+	left=20mm,
+	top=20mm,
+}
+\begin{document}
+	\begin{titlepage}
+		\centering
+		\includegraphics[width=0.3\textwidth]{/Users/system15/Desktop/AbdurCSE/vtulogo.jpeg}
+		
+		{\LARGE \textbf{Visvesvaraya Technological University}\par}
+		\vspace{1cm}
+		{\Large Department of Computer Science and Engineering\par}
+		\vspace{2cm}
+		{\Huge\bfseries Technical Writing using LaTeX\par}
+		\vspace{2cm}
+		{\Large Submitted by:\par}
+		{\large Abdur Rahman\par}
+		{\large 4VM24CS001\par}
+		\vspace{1cm}
+		{\Large Guide: \par}
+		{\large Dhananjaya Kumar K\par}
+		\vfill
+		{\large IV SEMESTER\par}
+	\end{titlepage}
+\end{document}
+
+
+"""
+
+Lab 4
+
+"""
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\begin{center}
+\textbf{\LARGE Certificate}
+\end{center}
+
+\vspace{1cm}
+
+This is to certify that \underline{\hspace{6cm}} has completed the report titled \underline{\hspace{8cm}} for the course \underline{\hspace{5cm}}.
+
+\vspace{2cm}
+
+\begin{flushright}
+Date: \underline{\hspace{3cm}}
+
+\underline{\hspace{8cm}} \\
+\textit{(Signature of Supervisor)}
+\end{flushright}
+
+\end{document}
+
+"""
+
+Lab 5
+
+"""
+
+\documentclass{article}
+\usepackage{multirow}
+
+\begin{document}
+
+\begin{table}
+\caption{Student Results}
+
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{SL NO} & \multirow{2}{*}{USN} & \multirow{2}{*}{Student Name} & \multicolumn{3}{c|}{MARKS} \\
+\cline{4-6}
+& & & JAVA & DBMS & Python \\
+\hline
+1 & 4VM20CS001 & Abdur & 75 & 72 & 78 \\
+\hline
+2 & 4VM20CS002 & Paul & 85 & 88 & 82 \\
+\hline
+3 & 4VM20CS003 & Dimple & 95 & 92 & 97 \\
+\hline
+\end{tabular}
+
+\end{table}
+
+\end{document}
+
+"""
+
+Lab 6
+
+"""
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\begin{document}
+
+\begin{figure}[h!]
+    \centering
+    
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{/home/dhanu/Pictures/Pappu Photos/Lumix/P1202356.JPG}
+        \caption{Caption for Image 1}
+        \label{fig:img1}
+    \end{subfigure}
+    
+    \hspace{0.1\linewidth}
+    
+    \begin{subfigure}[b]{0.4\linewidth}
+        \includegraphics[width=\linewidth]{/home/dhanu/Pictures/Pappu Photos/Lumix/P1202379.JPG}
+        \caption{Caption for Image 2}
+        \label{fig:img2}
+    \end{subfigure}
+    
+    \caption{Main caption for both images}
+    \label{fig:both_images}
+    
+\end{figure}
+
+\end{document}
+
+
+"""
+
+Lab 7
+
+"""
+
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+
+\title{Mathematical Equations}
+\author{Your Name}
+\date{\today}
+\maketitle
+
+\section*{Equations}
+
+\subsection*{Equation 1}
+The quadratic equation is:
+
+\begin{equation}
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+\end{equation}
+
+\begin{equation}
+= \frac{-2 \pm \sqrt{2^2 - 4(1)(-8)}}{2(1)}
+\end{equation}
+
+\begin{equation}
+= \frac{-2 \pm \sqrt{4 + 32}}{2}
+\end{equation}
+
+where \(a, b, c\) are the coefficient values.
+
+\subsection*{Equation 2}
+The second equation is:
+
+\begin{equation}
+\frac{d^2 y}{dx^2} + \omega^2 y = 0
+\end{equation}
+
+where \(y(x)\) is a function of \(x\) and \(\omega\) is a constant.
+
+\end{document}
+
+
+"""
