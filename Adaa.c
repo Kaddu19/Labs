@@ -1,4 +1,4 @@
-Lab1
+Lab1(krushkal's)
 
 """
 
